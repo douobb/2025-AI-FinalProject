@@ -1,1 +1,1 @@
-# 2025-AI-FinalProject
+# Applications of Machine Learning in Earthquake Prediction
