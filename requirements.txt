@@ -1,0 +1,11 @@
+torch
+torchvision
+scikit-learn
+loguru
+geopy
+pandas
+tqdm
+Pillow
+opencv-python
+requests
+numpy
