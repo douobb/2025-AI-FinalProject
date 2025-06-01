@@ -79,7 +79,7 @@ data_split/
 ## Usage
 ### Download & Preprocess
 Execute the following tasks in order:
-1. copy or moved the "processed_no_epiceter" folder to current folder  
+1. copy or moved the "data_split/processed_no_epiceter" folders to current folder  
 2. create "sea_removed" and "prediction" folder and their subfolders following the provided structure
 3. execute "remove_sea_color.py". You should see modified images appearing in the "sea_removed"
 
