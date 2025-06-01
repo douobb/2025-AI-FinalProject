@@ -13,13 +13,16 @@ from CNN import CNN, train, validate, test
 from utils import TrainDataset, TestDataset, load_train_dataset, load_test_dataset
 
 def main(): 
-    target = 'dep' # 預測目標: mag/dep/loc/lon/lat
+    target = 'mag' # 預測目標: mag/dep/loc/lon/lat
     nRound = 10 # 執行次數
     avg_mae = 0
     EPOCHS = 10
+    lr = 1e-4
+    model_type = 'resnet18' # 圖片使用模型: resnet18/efficientnet_b0/simple_cnn
+    use_extra_params = True
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    model = CNN().to(device)
+    model = CNN(model_type, use_extra_params).to(device)
     criterion = nn.L1Loss() # L1Loss/SmoothL1Loss/MSELoss
 
     for i in range(nRound):
@@ -49,7 +52,7 @@ def main():
 
             # Optimizer configuration
             base_params = [param for name, param in model.named_parameters() if param.requires_grad]
-            optimizer = optim.Adam(base_params, lr=1e-4)
+            optimizer = optim.Adam(base_params, lr=lr)
             scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=2)
             min_MAE = 1000000
 
@@ -90,7 +93,7 @@ def main():
 
             # Optimizer configuration
             base_params = [param for name, param in model.named_parameters() if param.requires_grad]
-            optimizer = optim.Adam(base_params, lr=1e-4)
+            optimizer = optim.Adam(base_params, lr=lr)
             scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=2)
             min_MAE = 1000000
 
@@ -148,7 +151,7 @@ def main():
 
             # Optimizer configuration
             base_params = [param for name, param in model.named_parameters() if param.requires_grad]
-            optimizer = optim.Adam(base_params, lr=1e-4)
+            optimizer = optim.Adam(base_params, lr=lr)
             scheduler = ReduceLROnPlateau(optimizer, mode='min', factor=0.5, patience=2)
             min_MAE = 1000000
 

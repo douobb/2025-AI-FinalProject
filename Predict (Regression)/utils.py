@@ -54,8 +54,7 @@ def load_train_dataset(target):
     elif target == 'mag' or target == 'dep':
         path = 'data_split/processed_images/train/'
     else:
-        print('error - wrong target name')
-        return
+        raise ValueError('error - wrong target name')
     images = []
     labels = []
     extra_params = []
@@ -90,8 +89,7 @@ def load_test_dataset(target):
     elif target == 'mag' or target == 'dep':
         path = 'data_split/processed_images/test/'
     else:
-        print('error - wrong target name')
-        return
+        raise ValueError('error - wrong target name')
     images = []
     extra_params = []
 

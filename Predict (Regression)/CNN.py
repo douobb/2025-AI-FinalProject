@@ -3,6 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision.models import resnet18, ResNet18_Weights
+from torchvision.models import efficientnet_b0, EfficientNet_B0_Weights
 from sklearn.metrics import mean_absolute_error
 from tqdm import tqdm
 from typing import Tuple
@@ -10,49 +11,82 @@ import csv
 import pandas as pd
 
 class CNN(nn.Module):
-    def __init__(self):
+    def __init__(self, model_type, use_extra_params):
         super(CNN, self).__init__()
-        self.resnet = resnet18(weights = ResNet18_Weights.DEFAULT)
-        self.resnet.fc = nn.Identity()
+        self.model_type = model_type
+        self.use_extra_params = use_extra_params
 
-        self.resnet_reduce = nn.Sequential(
-            nn.Linear(512, 128),
+        if model_type == 'resnet18':
+            self.feature_extractor = resnet18(weights=ResNet18_Weights.DEFAULT)
+            self.feature_extractor.fc = nn.Identity()
+            feature_dim = 512
+        elif model_type == 'efficientnet_b0':
+            self.feature_extractor = efficientnet_b0(weights=EfficientNet_B0_Weights.DEFAULT)
+            self.feature_extractor.classifier = nn.Identity()
+            feature_dim = 1280
+        elif model_type == 'simple_cnn':
+            self.feature_extractor = nn.Sequential(
+                nn.Conv2d(3, 16, kernel_size=3, stride=1, padding=1),
+                nn.ReLU(),
+                nn.MaxPool2d(2),
+                nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1),
+                nn.ReLU(),
+                nn.MaxPool2d(2),
+                nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1),
+                nn.ReLU(),
+                nn.AdaptiveAvgPool2d((1, 1)),
+                nn.Flatten()
+            )
+            feature_dim = 64
+        else:
+            raise ValueError(f"Unsupported model type: {model_type}")
+
+        self.reduce = nn.Sequential(
+            nn.Linear(feature_dim, 128),
             nn.ReLU()
         )
 
-        self.param_fc_2 = nn.Sequential(
-            nn.Linear(2, 16),
-            nn.ReLU(),
-            nn.Linear(16, 64),
-            nn.ReLU()
-        )
-        
-        self.param_fc_3 = nn.Sequential(
-            nn.Linear(3, 16),
-            nn.ReLU(),
-            nn.Linear(16, 64),
-            nn.ReLU()
-        )
+        if self.use_extra_params:
+            self.param_fc_2 = nn.Sequential(
+                nn.Linear(2, 16),
+                nn.ReLU(),
+                nn.Linear(16, 64),
+                nn.ReLU()
+            )
+            self.param_fc_3 = nn.Sequential(
+                nn.Linear(3, 16),
+                nn.ReLU(),
+                nn.Linear(16, 64),
+                nn.ReLU()
+            )
+            self.fc1 = nn.Sequential(
+                nn.Linear(128 + 64, 64),
+                nn.ReLU(),
+            )
+        else:
+            self.fc1 = nn.Sequential(
+                nn.Linear(128, 64),
+                nn.ReLU(),
+            )
 
-        self.fc1 = nn.Sequential(
-            nn.Linear(128 + 64, 64),
-            nn.ReLU(),
-        )
         self.fc2 = nn.Linear(64, 1)
 
-    def forward(self, x, extra_params):
-        x = self.resnet(x)
-        x = self.resnet_reduce(x)
+    def forward(self, x, extra_params = None):
+        x = self.feature_extractor(x)
+        x = self.reduce(x)
 
-        if extra_params.shape[1] == 2:
-            p = self.param_fc_2(extra_params)
-        elif extra_params.shape[1] == 3:
-            p = self.param_fc_3(extra_params)
-        else:
-            print('error - extra_params shape')
-            return
-        c = torch.cat([x, p], dim=1)
-        out = self.fc1(c)
+        if self.use_extra_params:
+            if extra_params is None:
+                raise ValueError("extra_params is required but not provided.")
+            if extra_params.shape[1] == 2:
+                p = self.param_fc_2(extra_params)
+            elif extra_params.shape[1] == 3:
+                p = self.param_fc_3(extra_params)
+            else:
+                raise ValueError('error - extra_params shape')
+            x = torch.cat([x, p], dim=1)
+
+        out = self.fc1(x)
         out = self.fc2(out)
         return out.squeeze(1)
 
