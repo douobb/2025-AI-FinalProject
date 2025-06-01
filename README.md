@@ -75,7 +75,43 @@ data_split/
 5. After all rounds are completed, the script will print the average MAE across all rounds.
 
 
-### For ...
-TBD
+### For Intensity Generater
+## Usage
+### Download & Preprocess
+Execute the following tasks in order:
+1. copy or moved the "processed_no_epiceter" folder to current folder  
+2. create "sea_removed" and "prediction" folder and their subfolders following the provided structure
+3. execute "remove_sea_color.py". You should see modified images appearing in the "sea_removed"
+
+Ensure the following structure:
+
+data_split/
+├── sea_removed/
+│   ├── train/
+│   │   ├── 2000001.png
+│   │   ├── 2012015.png
+│   │   └── ...
+│   └── test/
+│       ├── 2004012.png
+│       ├── 2023007.png
+│       └── ...
+├── processed_images_no_epicenter/
+│   ├── train/
+│   └── test/
+|
+├── prediction/
+│   ├── train/
+│   └── test/
+
+### For Predict
+There are two options: to run locally, or using cloud services.
+
+1. Run "main_test.py", here everything is packed together. Use this if you are using cloud services.
+   Note: In Google Colab, you must mount with Google drive, and upload "main_test.py", as well as the "data_split/sea_removed/" and "data_split/prediction/" folder in the running directory.
+2. Run "main_test.py" locally.
+
+After all rounds are completed, you should see the production of "loss.png" image, and "IntensityNet_model.pth" storing trained model parameters. 
+
+Furthermore, you should be able to inspect the predictions the model has made as images in the "data_split/prediction/" folder.
 
 
