@@ -67,9 +67,12 @@ data_split/
    | `nRound` | Positive integer | Number of repeated training rounds for averaging results |
    | `EPOCHS` | Positive integer | Number of training epochs per round |
    | `lr` | Small float | Learning rate used by the optimizer |
+   | `model_type` | `'resnet18'`, `'efficientnet_b0'`, `'simple_cnn'` | The model architecture used for processing the input images |
+   | `use_extra_params`| `True`, `False` | Whether to include additional input features (e.g., magnitude, depth)|
    | `criterion` | `nn.L1Loss()`, `nn.SmoothL1Loss()`, `nn.MSELoss()` | Loss function used during training |
-3. Run `main.py`. For each round, a `.csv` file will be generated that records both the predicted and actual values on the test set.
-4. After all rounds are completed, the script will print the average MAE across all rounds.
+   
+4. Run `main.py`. For each round, a `.csv` file will be generated that records both the predicted and actual values on the test set.
+5. After all rounds are completed, the script will print the average MAE across all rounds.
 
 
 ### For ...
