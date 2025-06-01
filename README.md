@@ -84,7 +84,7 @@ Execute the following tasks in order:
 3. execute "remove_sea_color.py". You should see modified images appearing in the "sea_removed"
 
 Ensure the following structure:
-
+```
 data_split/
 ├── sea_removed/
 │   ├── train/
@@ -102,7 +102,7 @@ data_split/
 ├── prediction/
 │   ├── train/
 │   └── test/
-
+```
 ### For Predict
 There are two options: to run locally, or using cloud services.
 
