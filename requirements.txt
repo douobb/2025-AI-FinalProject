@@ -9,3 +9,9 @@ Pillow
 opencv-python
 requests
 numpy
+numpy
+os
+PIL
+matplotlib
+scikit-image
+typing
