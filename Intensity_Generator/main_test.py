@@ -130,6 +130,7 @@ def test(model: IntensityNet, test_loader: DataLoader, criterion, device):
             outputs = model(features) # [batch_size, channels=1, H=60, W=36]
             loss = criterion(outputs, target_matrix) # criterion = nn.SmoothL1Loss()
             total_size += outputs.size(0) # collect batch size
+            total_loss += loss.item()
 
             # save predictions
             for j in range(outputs.size(0)):
