@@ -82,6 +82,7 @@ Execute the following tasks in order:
 1. copy or moved the `data_split/processed_no_epiceter` folders to current folder  
 2. create `sea_removed` and `prediction` folder and their subfolders following the provided structure
 3. execute `remove_sea_color.py`. You should see modified images appearing in the `sea_removed`
+Note: inspect and adjust the output directories to your environment
 
 Ensure the following structure:
 ```
@@ -106,8 +107,10 @@ data_split/
 There are two options: to run locally, or using cloud services.
 
 1. Run `main_test.py`, here everything is packed together. Use this if you are using cloud services.
-   Note: In Google Colab, you must mount with Google drive, and upload `main_test.py`,, as well as the `data_split/sea_removed/` and `data_split/prediction/` folder in the running directory.
-2. Run "main_test.py" locally.
+Note: In Google Colab, you must mount with Google drive, and upload `main_test.py`,, as well as the `data_split/sea_removed/` and `data_split/prediction/` folder in the running directory.
+
+3. Run "main_test.py" locally.
+Note: make sure to inspect and adjust the output directories to your environment.
 
 After all rounds are completed, you should see the production of `loss.png` image, and `IntensityNet_model.pth` storing trained model parameters. 
 
