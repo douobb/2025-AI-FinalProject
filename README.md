@@ -110,7 +110,7 @@ There are two options: to run locally, or using cloud services.
 1. Run `main_test.py`, here everything is packed together. Use this if you are using cloud services. <br />
 Note: In Google Colab, you must mount with Google drive, and upload `main_test.py`,, as well as the `data_split/sea_removed/` and `data_split/prediction/` folder in the running directory.
 
-3. Run "main_test.py" locally. <br />
+3. Run `main_test.py` locally. <br />
 Note: make sure to inspect and adjust the output directories to your environment.
 
 After all rounds are completed, You should be able to inspect the predictions the model has made as images in the `data_split/prediction/` folder.
