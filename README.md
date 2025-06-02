@@ -116,7 +116,7 @@ Note: make sure to inspect and adjust the output directories to your environment
 After all rounds are completed, You should be able to inspect the predictions the model has made as images in the `data_split/prediction/` folder.
 
 You should also see the production of `loss.png` image, and `IntensityNet_model.pth` storing trained model parameters.  <br />
-To open "IntensityNet_model.pth", the following is themethos
+To open `IntensityNet_model.pth`, the following is themethos
 ```
 model = IntensityNet()
 state_dict = torch.load("full_path_to_the_pth_directory/IntensityNet_model.pth")
