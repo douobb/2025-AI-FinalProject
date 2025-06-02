@@ -113,8 +113,13 @@ Note: In Google Colab, you must mount with Google drive, and upload `main_test.p
 3. Run "main_test.py" locally. <br />
 Note: make sure to inspect and adjust the output directories to your environment.
 
-After all rounds are completed, you should see the production of `loss.png` image, and `IntensityNet_model.pth` storing trained model parameters. 
+After all rounds are completed, You should be able to inspect the predictions the model has made as images in the `data_split/prediction/` folder.
 
-Furthermore, you should be able to inspect the predictions the model has made as images in the `data_split/prediction/` folder.
-
-
+You should also see the production of `loss.png` image, and `IntensityNet_model.pth` storing trained model parameters. 
+To open 'IntensityNet_model.pth', the following is themethos
+```
+model = IntensityNet()
+state_dict = torch.load("full_path_to_the_pth_directory/IntensityNet_model.pth")
+model.load_state_dict(state_dict)
+model.to(device)
+```
