@@ -1,6 +1,7 @@
 torch
 torchvision
 scikit-learn
+scikit-image
 loguru
 geopy
 pandas
@@ -9,9 +10,4 @@ Pillow
 opencv-python
 requests
 numpy
-numpy
-os
-PIL
 matplotlib
-scikit-image
-typing
